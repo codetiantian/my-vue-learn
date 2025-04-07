@@ -1,15 +1,16 @@
 <template>
-  <div>
+  <div class="my-box">
     <!-- <CusTables /> -->
      <!-- <FileUpload /> -->
       <!-- <CusUpload />
 
       <CusTable /> -->
       <!-- <CusEchars1 /> -->
-       <div>num的值为：{{ num }}</div>
+       <!-- <div>num的值为：{{ num }}</div>
        <button @click="addBtnClicked">点击增加</button>
        <EcharsCus :zsechartdata="requestData.indexmistoryList" />
-       <MyCus @click="myCusBtnClicked" />
+       <MyCus @click="myCusBtnClicked" /> -->
+       <cus-table-comp :columns="tableColumns" :table-data="arrData" :scroll="{x: 500 }" />
   </div>
 </template>
 
@@ -20,20 +21,22 @@
 // import CusUpload from './components/CusUpload.vue'
 // import CusTable from './components/CusTable.vue'
 // import CusEchars1 from './components/CusEchars1.vue'
-import EcharsCus from './components/EcharsCus.vue'
-import MyCus from './components/MyCus.vue'
+// import EcharsCus from './components/EcharsCus.vue'
+// import MyCus from './components/MyCus.vue'
+import CusTableComp from './components/CusTableComp.vue'
+import { ref } from 'vue'
 
-let num = 1
+// let num = 1
 
-const addBtnClicked = () => {
-  num++
+// const addBtnClicked = () => {
+//   num++
 
-  console.log(num)
-}
+//   console.log(num)
+// }
 
-const myCusBtnClicked = () => {
-  console.log('myCusBtnClicked')
-}
+// const myCusBtnClicked = () => {
+//   console.log('myCusBtnClicked')
+// }
 // const data = {
 //     dataColumnNameList: ['3月', '4月', '5月', '6月'],
 //     rowDataList: [
@@ -133,8 +136,82 @@ const myCusBtnClicked = () => {
 //     rowDataList.find()
 //   })
 
-const requestData = {
-  indexmistoryList: [{ indexprice: '1' }, { indexprice: '2' }, { indexprice: '8' }]
+// const requestData = {
+//   indexmistoryList: [{ indexprice: '1' }, { indexprice: '2' }, { indexprice: '8' }]
+// }
+
+const tableColumns = [
+  {
+    title: '交付月',
+    key: 'month',
+    width: 100,
+    fixed: true
+  },
+  {
+    title: 'JCC',
+    key: 'jcc',
+    unit: 'USD/BBL',
+    children: [
+      {
+        title: '买',
+        key: 'buy',
+      },
+      {
+        title: '卖',
+        key: 'sale',
+      }
+    ]
+  },
+  {
+    title: 'LNG价格',
+    key: 'lng',
+    unit: '元/吨',
+    children: [
+      {
+        title: '买',
+        key: 'buy',
+      },
+      {
+        title: '卖',
+        key: 'sale',
+      }
+    ]
+  },
+  {
+    title: 'PNG价格',
+    key: 'png',
+    unit: '元/方',
+    children: [
+      {
+        title: '买',
+        key: 'buy',
+      },
+      {
+        title: '卖',
+        key: 'sale',
+      }
+    ]
+  }
+] 
+
+const arrData = ref([])
+
+for (let i = 0; i < 8; i++) {
+  arrData.value.push({
+    month: `2025-0${i + 1}`,
+    jcc: {
+      buy: Math.random().toFixed(1),
+      sale: Math.random().toFixed(1)
+    },
+    lng: {
+      buy: Math.random().toFixed(1),
+      sale: Math.random().toFixed(1)
+    },
+    png: {
+      buy: Math.random().toFixed(1),
+      sale: Math.random().toFixed(1)
+    }
+  })
 }
 
 </script>
@@ -157,5 +234,17 @@ const requestData = {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+.my-box {
+  width: 100vw;
+  padding: 10px;
+  box-sizing: border-box;
+}
+</style>
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
 }
 </style>
