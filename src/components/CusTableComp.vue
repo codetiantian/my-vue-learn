@@ -63,8 +63,8 @@ defineProps({
 <style lang="less" scoped>
   @line-color: #999;
   .table-box {
-    border: 1px solid @line-color;
     border-radius: 8px;
+    border: 1px solid @line-color;
     width: 100%;
     overflow: hidden;
     .table-box-content {

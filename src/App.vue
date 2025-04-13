@@ -1,144 +1,24 @@
 <template>
   <div class="my-box">
-    <!-- <CusTables /> -->
-     <!-- <FileUpload /> -->
-      <!-- <CusUpload />
-
-      <CusTable /> -->
-      <!-- <CusEchars1 /> -->
-       <!-- <div>num的值为：{{ num }}</div>
-       <button @click="addBtnClicked">点击增加</button>
-       <EcharsCus :zsechartdata="requestData.indexmistoryList" />
-       <MyCus @click="myCusBtnClicked" /> -->
-       <cus-table-comp :columns="tableColumns" :table-data="arrData" :scroll="{x: 500 }" />
+    <cus-table-comp 
+      :columns="tableColumns" 
+      :table-data="arrData" 
+      :scroll="{ x: 800 }" 
+      :style="{ width: '500px' }"
+    />
+    <div v-if="ipAddress">获取的ip为：{{ ipAddress }}</div>
+    <div v-else>获取失败的原因为：{{ errMsg }}</div>
   </div>
 </template>
 
 <script setup>
-// import CusOne from './components/CusOne.vue'
-// import CusTables from './components/CusTables.vue'
-// import FileUpload from './components/FileUpload.vue'
-// import CusUpload from './components/CusUpload.vue'
-// import CusTable from './components/CusTable.vue'
-// import CusEchars1 from './components/CusEchars1.vue'
-// import EcharsCus from './components/EcharsCus.vue'
-// import MyCus from './components/MyCus.vue'
+
 import CusTableComp from './components/CusTableComp.vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 
-// let num = 1
-
-// const addBtnClicked = () => {
-//   num++
-
-//   console.log(num)
-// }
-
-// const myCusBtnClicked = () => {
-//   console.log('myCusBtnClicked')
-// }
-// const data = {
-//     dataColumnNameList: ['3月', '4月', '5月', '6月'],
-//     rowDataList: [
-//       {
-//         rowName: '合同11212',
-
-//         cellDataListInRow: [
-//           {
-//             columnName: '3月',
-
-//             cellValue: '401.37元/s',
-
-//             cellValueUnit: 'm/s',
-//           },
-
-//           {
-//             columnName: '4月',
-
-//             cellValue: '4.37元/s',
-
-//             cellValueUnit: 'm/s',
-//           },
-
-//           {
-//             columnName: '5月',
-
-//             cellValue: '41.37元/s',
-
-//             cellValueUnit: 'm/s',
-//           },
-//         ],
-//       },
-
-//       {
-//         rowName: '合同2',
-
-//         cellDataListInRow: [
-//           {
-//             columnName: '4月',
-
-//             cellValue: '41.37元/s',
-
-//             cellValueUnit: 'm/s',
-//           },
-
-//           {
-//             columnName: '5月',
-
-//             cellValue: '41.37元/s',
-
-//             cellValueUnit: 'm/s',
-//           },
-//           {
-//             columnName: '6月',
-
-//             cellValue: '41.37元/s',
-
-//             cellValueUnit: 'm/s',
-//           },
-//         ],
-//       },
-
-//       {
-//         rowName: '合同3',
-
-//         cellDataListInRow: [
-//           {
-//             columnName: '3月',
-
-//             cellValue: '40.37元/s',
-//           },
-
-//           {
-//             columnName: '4月',
-
-//             cellValue: '41.37元/s',
-
-//             cellValueUnit: 'm/s',
-//           },
-
-//           {
-//             columnName: '5月',
-
-//             cellValue: '41.37元/s',
-
-//             cellValueUnit: 'm/s',
-//           },
-//         ],
-//       },
-//     ],
-//   }
-
-//   const newData = {}
-//   const { dataColumnNameList, rowDataList } = data
-//   newData.dataColumnNameList = dataColumnNameList.slice(0, 3)
-//   newData.dataColumnNameList.map(item => {
-//     rowDataList.find()
-//   })
-
-// const requestData = {
-//   indexmistoryList: [{ indexprice: '1' }, { indexprice: '2' }, { indexprice: '8' }]
-// }
+const ipAddress = ref('')
+const errMsg = ref('')
 
 const tableColumns = [
   {
@@ -213,6 +93,22 @@ for (let i = 0; i < 8; i++) {
     }
   })
 }
+
+const fetchIpAddress = async () => {
+  try {
+    // 使用公共 API 获取 IP 地址
+    const response = await axios.get('https://api.ipify.org?format=json')
+    ipAddress.value = response.data.ip
+
+  } catch (error) {
+    errMsg.value = error
+  }
+}
+
+onMounted(() => {
+  // 获取 IP 地址
+  fetchIpAddress()
+})
 
 </script>
 
